@@ -1,0 +1,20 @@
+name: Lista  3 - EX1
+description: ''
+host: EXCEL
+api_set: {}
+script:
+  content: "const student = document.getElementById(\"student\") as HTMLInputElement;\r\nconst n1 = document.getElementById(\"n1\") as HTMLInputElement;\r\nconst n2 = document.getElementById(\"n2\") as HTMLInputElement;\r\nconst btnSave = document.getElementById(\"btnCad\") as HTMLButtonElement;\r\n\r\nconst students = [];\r\n\r\nbtnSave.addEventListener(\"click\", () => {\r\n  Excel.run(async (context) => {\r\n    const sheet = context.workbook.worksheets.getActiveWorksheet();\r\n\r\n    /*if (!student.value) {\r\n      sheet.getRange(\"A1\").values = [[\"Todos os campos são obrigatórios\"]];\r\n      sheet.getUsedRange().format.autofitColumns();\r\n      return;\r\n    }*/\r\n\r\n    const newStudent = {\r\n      name: student.value,\r\n      evaluation1: n1.value,\r\n      evaluation2: n2.value\r\n    };\r\n\r\n    students.push(newStudent);\r\n\r\n    student.value = \"\";\r\n    n1.value = \"\";\r\n    n2.value = \"\";\r\n\r\n    //sheet.getUsedRange().clear;\r\n\r\n    for (let i = 1; i <= students.length; i++) {\r\n      const media = (parseFloat(newStudent.evaluation1) + parseFloat(newStudent.evaluation2)) / 2;\r\n\r\n      sheet.getRange(`A${i}:D${i}`).values = [[newStudent.name, newStudent.evaluation1, newStudent.evaluation2, media]];\r\n      sheet.getUsedRange().format.autofitColumns();\r\n    }\r\n  }); //Fecha a Tag Excel.run\r\n}); //Fecha a Tag btnSave.addEventListenner\r\n"
+  language: typescript
+template:
+  content: "<div>\r\n\t<label>Nome: </label>\r\n\t<input id=\"student\" placeholder=\"Digite o Nome do Aluno\" >\r\n\t<br><br>\r\n\t<label>Nota 1: </label>\r\n\t<input id=\"n1\" placeholder=\"Digite a Nota 1\" >\r\n\t<br><br>\r\n\t<label>Nota 2: </label>\r\n\t<input id=\"n2\" placeholder=\"Digite a Nota 2\" >\r\n\t<br><br>\r\n\t<p id=\"resultado\"> </p>\r\n\r\n</div>\r\n\r\n<div>\r\n\t<button id=\"btnCad\">Cadastrar </button>\r\n</div>"
+  language: html
+style:
+  content: ''
+  language: css
+libraries: |+
+  https://appsforoffice.microsoft.com/lib/1/hosted/office.js
+  @types/office-js
+
+  core-js@2.4.1/client/core.min.js
+  @types/core-js
+
